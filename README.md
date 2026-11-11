@@ -25,3 +25,10 @@ minutes, `h` hours, `d` days. A bare number is interpreted as seconds.
   them, but we surface the error at parse time before touching the clock.
 - Trailing garbage like `5s5` raises rather than silently taking the first
   token.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
